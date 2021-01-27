@@ -47,6 +47,7 @@ part4_df<-part3_df %>%
 
 # From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 part5_df<-part4_df %>%
-  reshape2::melt(id=c("Subject_ID", "Activity"), variable.name="Measurement", value.name="Value") %>%
   group_by(Subject_ID, Activity) %>%
-  summarise(Mean=mean(Value))
+  summarise(across(where(is.numeric), mean))
+
+write.table(part5_df, file="tidydata.txt", row.names=FALSE)
